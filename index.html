@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>ASTART — Custom Clothing for Bright Ideas</title>
+<meta name="description" content="ASTART creates custom T-shirts, hoodies, crewnecks, bags, hats and more for individuals, teams, schools, businesses and events." />
+<style>
+  :root{
+    --forest:#0b3434; --ink:#0d2f31; --cream:#f4ead7; --paper:#f8f0df;
+    --gold:#c6922d; --rust:#b85e3f; --line:#cdbd9f; --shadow:0 18px 60px rgba(0,0,0,.24);
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:#efe6d4;color:var(--ink);font-family:Arial,Helvetica,sans-serif}
+  .page{position:relative;max-width:1440px;margin:0 auto;background:#efe6d4;box-shadow:0 0 80px rgba(0,0,0,.18)}
+  .art{display:block;width:100%;height:auto;user-select:none;-webkit-user-drag:none}
+  .hotspot{position:absolute;display:block;cursor:pointer;border:0;background:transparent;z-index:10}
+  .hotspot:focus-visible{outline:3px solid #fff;outline-offset:3px;background:rgba(255,255,255,.06);border-radius:8px}
+  .hotspot:hover{background:rgba(255,255,255,.025)}
+  .sr{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+  /* modal */
+  .modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;padding:20px;background:rgba(6,29,30,.76);backdrop-filter:blur(8px);z-index:999}
+  .modal.open{display:flex}
+  .panel{width:min(900px,100%);max-height:92vh;overflow:auto;background:var(--paper);border:1px solid #dfd0b5;border-radius:24px;box-shadow:var(--shadow);position:relative}
+  .panel-head{position:sticky;top:0;z-index:2;background:linear-gradient(#f8f0df 86%,rgba(248,240,223,.92));padding:22px 26px 14px;border-bottom:1px solid #dccdb1}
+  .panel-head h2{margin:0;font-family:Georgia,'Times New Roman',serif;font-weight:600;font-size:clamp(28px,4vw,44px);letter-spacing:.02em}
+  .panel-head p{margin:7px 45px 0 0;color:#4c5e5b}
+  .close{position:absolute;right:18px;top:14px;width:42px;height:42px;border-radius:50%;border:1px solid #bcae95;background:#fff8ea;color:var(--ink);font-size:28px;cursor:pointer}
+  .panel-body{padding:24px 26px 30px}
+  .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+  .field{display:flex;flex-direction:column;gap:7px}
+  .field.full{grid-column:1/-1}
+  label{font-size:13px;text-transform:uppercase;letter-spacing:.11em;font-weight:700}
+  input,select,textarea{width:100%;border:1px solid #c9baa0;background:#fffaf0;color:#173436;border-radius:12px;padding:13px 14px;font:inherit}
+  textarea{min-height:110px;resize:vertical}
+  .choices{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+  .choice{border:1px solid #bcae95;background:#fff8ea;border-radius:14px;padding:12px;cursor:pointer;text-align:center}
+  .choice input{width:auto;margin-right:7px}
+  .actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:22px}
+  .btn{appearance:none;border:0;border-radius:12px;padding:13px 18px;font-weight:700;letter-spacing:.04em;cursor:pointer;background:var(--forest);color:#fff}
+  .btn.alt{background:#d6b05a;color:#183537}
+  .btn.ghost{background:transparent;color:var(--forest);border:1px solid #9e927c}
+  .note{margin-top:14px;font-size:13px;color:#5a6865;line-height:1.5}
+  .cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+  .card{background:#fff8ea;border:1px solid #d3c5aa;border-radius:16px;padding:18px}
+  .card h3{margin:0 0 7px;font-family:Georgia,serif;font-size:22px}
+  .card p{margin:0 0 12px;color:#50615e;line-height:1.45}
+  .contact-box{background:#0e3838;color:#fff;border-radius:18px;padding:20px;margin-bottom:18px}
+  .contact-box h3{margin-top:0}
+  .toast{position:fixed;left:50%;bottom:28px;transform:translateX(-50%);background:#0b3434;color:#fff;padding:12px 16px;border-radius:999px;box-shadow:var(--shadow);display:none;z-index:1200}
+  .toast.show{display:block}
+  @media(max-width:700px){
+    .modal{padding:8px}.panel{border-radius:18px}.panel-head,.panel-body{padding-left:16px;padding-right:16px}
+    .grid,.cards{grid-template-columns:1fr}.choices{grid-template-columns:1fr 1fr}.field.full{grid-column:auto}
+  }
+</style>
+</head>
+<body>
+<main class="page" id="top">
+  <img class="art" src="assets/astart-homepage.png" alt="ASTART illustrated custom apparel website with product categories and custom-order calls to action" />
+
+  <!-- Header/nav hotspots -->
+  <a class="hotspot" href="#" data-action="custom" style="left:29%;top:1.6%;width:8%;height:3%;"><span class="sr">Custom order</span></a>
+  <a class="hotspot" href="#" data-action="shop" style="left:36%;top:1.6%;width:7%;height:3%;"><span class="sr">Shop apparel</span></a>
+  <a class="hotspot" href="#" data-action="collections" style="left:43%;top:1.6%;width:10%;height:3%;"><span class="sr">Collections</span></a>
+  <a class="hotspot" href="#" data-action="about" style="left:53.5%;top:1.6%;width:7%;height:3%;"><span class="sr">About ASTART</span></a>
+  <a class="hotspot" href="#" data-action="contact" style="left:60.5%;top:1.6%;width:8%;height:3%;"><span class="sr">Contact ASTART</span></a>
+
+  <!-- Hero and CTA -->
+  <a class="hotspot" href="#" data-action="custom" style="left:22.5%;top:25.2%;width:22%;height:3.5%;"><span class="sr">Start a custom order</span></a>
+
+  <!-- Audience row -->
+  <a class="hotspot" href="#" data-action="custom" data-use="Individuals" style="left:4%;top:35%;width:15%;height:7%;"><span class="sr">Individual custom apparel</span></a>
+  <a class="hotspot" href="#" data-action="custom" data-use="Teams" style="left:20%;top:35%;width:15%;height:7%;"><span class="sr">Team apparel</span></a>
+  <a class="hotspot" href="#" data-action="custom" data-use="Schools" style="left:36%;top:35%;width:15%;height:7%;"><span class="sr">School apparel</span></a>
+  <a class="hotspot" href="#" data-action="custom" data-use="Businesses" style="left:52%;top:35%;width:15%;height:7%;"><span class="sr">Business apparel</span></a>
+  <a class="hotspot" href="#" data-action="custom" data-use="Events" style="left:68%;top:35%;width:15%;height:7%;"><span class="sr">Event apparel</span></a>
+
+  <!-- Product cards -->
+  <a class="hotspot" href="#" data-action="custom" data-product="T-shirts" style="left:2.5%;top:48.6%;width:19%;height:16%;"><span class="sr">Order custom T-shirts</span></a>
+  <a class="hotspot" href="#" data-action="custom" data-product="Hoodies" style="left:21.9%;top:48.6%;width:19%;height:16%;"><span class="sr">Order custom hoodies</span></a>
+  <a class="hotspot" href="#" data-action="custom" data-product="Crewnecks / Sweatshirts" style="left:41.2%;top:48.6%;width:19%;height:16%;"><span class="sr">Order custom crewnecks</span></a>
+  <a class="hotspot" href="#" data-action="custom" data-product="Hats" style="left:60.7%;top:48.6%;width:18%;height:16%;"><span class="sr">Order custom hats</span></a>
+  <a class="hotspot" href="#" data-action="custom" data-product="Bags / Totes" style="left:79.2%;top:48.6%;width:18.5%;height:16%;"><span class="sr">Order custom bags</span></a>
+  <a class="hotspot" href="#" data-action="shop" style="left:78.5%;top:44.6%;width:13%;height:3%;"><span class="sr">View all products</span></a>
+
+  <!-- Lower CTAs -->
+  <a class="hotspot" href="#" data-action="custom" style="left:40%;top:76.8%;width:20%;height:3.4%;"><span class="sr">Start a custom order</span></a>
+  <a class="hotspot" href="#" data-action="shop" style="left:43%;top:90.3%;width:14%;height:3%;"><span class="sr">Shop now</span></a>
+  <a class="hotspot" href="#" data-action="custom" style="left:20%;top:96%;width:8%;height:2.5%;"><span class="sr">Custom order</span></a>
+  <a class="hotspot" href="#" data-action="shop" style="left:28%;top:96%;width:7%;height:2.5%;"><span class="sr">Shop</span></a>
+  <a class="hotspot" href="#" data-action="about" style="left:34.7%;top:96%;width:7%;height:2.5%;"><span class="sr">About</span></a>
+  <a class="hotspot" href="#" data-action="contact" style="left:41.7%;top:96%;width:8%;height:2.5%;"><span class="sr">Contact</span></a>
+</main>
+
+<!-- CUSTOM ORDER MODAL -->
+<div class="modal" id="customModal" aria-hidden="true">
+  <section class="panel" role="dialog" aria-modal="true" aria-labelledby="customTitle">
+    <div class="panel-head">
+      <button class="close" data-close aria-label="Close">×</button>
+      <h2 id="customTitle">Start a Custom Order</h2>
+      <p>Tell us what you want to make. You can send the artwork now or describe the idea.</p>
+    </div>
+    <div class="panel-body">
+      <form id="orderForm">
+        <div class="grid">
+          <div class="field"><label for="name">Name</label><input id="name" name="name" required autocomplete="name"></div>
+          <div class="field"><label for="email">Email</label><input id="email" name="email" type="email" required autocomplete="email"></div>
+          <div class="field"><label for="phone">Phone</label><input id="phone" name="phone" type="tel" autocomplete="tel"></div>
+          <div class="field"><label for="org">Business / team / school</label><input id="org" name="organization"></div>
+          <div class="field"><label for="use">Order type</label><select id="use" name="order_type"><option>Personal / Individual</option><option>Business</option><option>School</option><option>Team</option><option>Event</option><option>Other</option></select></div>
+          <div class="field"><label for="product">Product</label><select id="product" name="product"><option>T-shirts</option><option>Hoodies</option><option>Crewnecks / Sweatshirts</option><option>Bags / Totes</option><option>Hats</option><option>Other</option></select></div>
+          <div class="field"><label for="qty">Approx. quantity</label><input id="qty" name="quantity" type="number" min="1" placeholder="e.g. 24"></div>
+          <div class="field"><label for="deadline">Needed by</label><input id="deadline" name="deadline" type="date"></div>
+          <div class="field full"><label>Print location</label><div class="choices"><label class="choice"><input type="checkbox" name="placement" value="Front">Front</label><label class="choice"><input type="checkbox" name="placement" value="Back">Back</label><label class="choice"><input type="checkbox" name="placement" value="Left chest">Left chest</label><label class="choice"><input type="checkbox" name="placement" value="Sleeve">Sleeve</label><label class="choice"><input type="checkbox" name="placement" value="Other">Other</label></div></div>
+          <div class="field full"><label for="sizes">Sizes / breakdown</label><input id="sizes" name="sizes" placeholder="Example: S-4, M-8, L-8, XL-4"></div>
+          <div class="field full"><label for="color">Garment color(s)</label><input id="color" name="colors" placeholder="Example: Forest green, cream"></div>
+          <div class="field full"><label for="notes">Design idea / notes</label><textarea id="notes" name="notes" placeholder="Describe the design, wording, colors, style, names or numbers..."></textarea></div>
+          <div class="field full"><label for="artwork">Upload artwork / logo</label><input id="artwork" name="artwork" type="file" accept="image/*,.pdf,.svg,.ai,.eps"></div>
+        </div>
+        <div class="actions">
+          <button class="btn" type="button" id="emailOrder">Email Order Request</button>
+          <button class="btn alt" type="button" id="downloadOrder">Download Order Summary</button>
+          <button class="btn ghost" type="button" id="saveOrder">Save Draft</button>
+        </div>
+        <p class="note">This static website prepares the order request on the customer’s device. Before publishing, replace the email address in the website settings with your business email. Artwork files cannot be attached automatically through a mail link, so customers should attach the file when their email opens.</p>
+      </form>
+    </div>
+  </section>
+</div>
+
+<!-- SHOP MODAL -->
+<div class="modal" id="shopModal" aria-hidden="true">
+  <section class="panel" role="dialog" aria-modal="true" aria-labelledby="shopTitle">
+    <div class="panel-head"><button class="close" data-close aria-label="Close">×</button><h2 id="shopTitle">Choose Your Canvas</h2><p>Select a product to start a custom order.</p></div>
+    <div class="panel-body cards">
+      <article class="card"><h3>T-shirts</h3><p>Everyday custom tees for individuals, groups and events.</p><button class="btn" data-product-open="T-shirts">Start with T-shirts</button></article>
+      <article class="card"><h3>Hoodies</h3><p>Custom pullover hoodies for teams, businesses and everyday wear.</p><button class="btn" data-product-open="Hoodies">Start with Hoodies</button></article>
+      <article class="card"><h3>Crewnecks</h3><p>Classic sweatshirts with front, back or chest artwork.</p><button class="btn" data-product-open="Crewnecks / Sweatshirts">Start with Crewnecks</button></article>
+      <article class="card"><h3>Bags & Totes</h3><p>Reusable totes and bags for events, brands and gifts.</p><button class="btn" data-product-open="Bags / Totes">Start with Bags</button></article>
+      <article class="card"><h3>Hats</h3><p>Custom hats and headwear for crews, events and collections.</p><button class="btn" data-product-open="Hats">Start with Hats</button></article>
+      <article class="card"><h3>Something Else</h3><p>Have another item in mind? Tell us what you want to make.</p><button class="btn" data-product-open="Other">Tell us your idea</button></article>
+    </div>
+  </section>
+</div>
+
+<!-- COLLECTIONS MODAL -->
+<div class="modal" id="collectionsModal" aria-hidden="true">
+  <section class="panel" role="dialog" aria-modal="true" aria-labelledby="collectionsTitle">
+    <div class="panel-head"><button class="close" data-close aria-label="Close">×</button><h2 id="collectionsTitle">ASTART Collections</h2><p>This section is ready for your seasonal drops, ready-to-wear designs and limited collections.</p></div>
+    <div class="panel-body cards">
+      <article class="card"><h3>Collection One</h3><p>Add your first ready-to-wear collection here with photos, sizes and pricing.</p><button class="btn ghost" type="button">Coming soon</button></article>
+      <article class="card"><h3>Collection Two</h3><p>Use this space for a holiday, school-spirit or seasonal drop.</p><button class="btn ghost" type="button">Coming soon</button></article>
+      <article class="card"><h3>Collection Three</h3><p>Perfect for limited-edition ASTART designs or collaborations.</p><button class="btn ghost" type="button">Coming soon</button></article>
+    </div>
+  </section>
+</div>
+
+<!-- ABOUT MODAL -->
+<div class="modal" id="aboutModal" aria-hidden="true">
+  <section class="panel" role="dialog" aria-modal="true" aria-labelledby="aboutTitle">
+    <div class="panel-head"><button class="close" data-close aria-label="Close">×</button><h2 id="aboutTitle">About ASTART</h2></div>
+    <div class="panel-body">
+      <div class="contact-box"><h3>Custom clothing for bright ideas.</h3><p>ASTART turns ideas into wearable pieces for individuals, families, teams, schools, businesses and events.</p></div>
+      <p>Bring your logo, artwork or even a rough idea. ASTART can help turn it into custom apparel across T-shirts, hoodies, crewnecks, bags, hats and more.</p>
+    </div>
+  </section>
+</div>
+
+<!-- CONTACT MODAL -->
+<div class="modal" id="contactModal" aria-hidden="true">
+  <section class="panel" role="dialog" aria-modal="true" aria-labelledby="contactTitle">
+    <div class="panel-head"><button class="close" data-close aria-label="Close">×</button><h2 id="contactTitle">Contact ASTART</h2><p>Leave your information and a note about what you need.</p></div>
+    <div class="panel-body">
+      <form id="contactForm" class="grid">
+        <div class="field"><label for="cname">Name</label><input id="cname" required></div>
+        <div class="field"><label for="cemail">Email</label><input id="cemail" type="email" required></div>
+        <div class="field"><label for="cphone">Phone</label><input id="cphone" type="tel"></div>
+        <div class="field"><label for="corg">Organization</label><input id="corg"></div>
+        <div class="field full"><label for="cmsg">How can we help?</label><textarea id="cmsg"></textarea></div>
+        <div class="field full"><button class="btn" type="button" id="emailContact">Email ASTART</button></div>
+      </form>
+    </div>
+  </section>
+</div>
+<div class="toast" id="toast">Saved.</div>
+
+<script>
+const CONFIG={businessEmail:'Custom8020@gmail.com'};
+const modals={custom:document.getElementById('customModal'),shop:document.getElementById('shopModal'),collections:document.getElementById('collectionsModal'),about:document.getElementById('aboutModal'),contact:document.getElementById('contactModal')};
+function openModal(name){Object.values(modals).forEach(m=>m.classList.remove('open')); const m=modals[name]; if(m){m.classList.add('open');m.setAttribute('aria-hidden','false');document.body.style.overflow='hidden';}}
+function closeAll(){Object.values(modals).forEach(m=>{m.classList.remove('open');m.setAttribute('aria-hidden','true')});document.body.style.overflow='';}
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),1800)}
+document.querySelectorAll('[data-close]').forEach(b=>b.addEventListener('click',closeAll));
+document.querySelectorAll('.modal').forEach(m=>m.addEventListener('click',e=>{if(e.target===m)closeAll()}));
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeAll()});
+document.querySelectorAll('.hotspot').forEach(h=>h.addEventListener('click',e=>{e.preventDefault();const a=h.dataset.action;if(a==='custom'){if(h.dataset.product)document.getElementById('product').value=h.dataset.product;if(h.dataset.use){const map={Individuals:'Personal / Individual',Teams:'Team',Schools:'School',Businesses:'Business',Events:'Event'};document.getElementById('use').value=map[h.dataset.use]||'Other'}openModal('custom')} else openModal(a)}));
+document.querySelectorAll('[data-product-open]').forEach(b=>b.addEventListener('click',()=>{document.getElementById('product').value=b.dataset.productOpen;openModal('custom')}));
+function orderSummary(){
+ const f=document.getElementById('orderForm'); const data=new FormData(f); const placements=data.getAll('placement').join(', '); const file=document.getElementById('artwork').files[0];
+ return `ASTART CUSTOM ORDER REQUEST\n\nName: ${data.get('name')||''}\nEmail: ${data.get('email')||''}\nPhone: ${data.get('phone')||''}\nOrganization: ${data.get('organization')||''}\nOrder type: ${data.get('order_type')||''}\nProduct: ${data.get('product')||''}\nQuantity: ${data.get('quantity')||''}\nSizes: ${data.get('sizes')||''}\nGarment colors: ${data.get('colors')||''}\nPrint placement: ${placements}\nNeeded by: ${data.get('deadline')||''}\nArtwork file: ${file?file.name:'Not selected'}\n\nDesign notes:\n${data.get('notes')||''}`;
+}
+document.getElementById('emailOrder').addEventListener('click',()=>{const f=document.getElementById('orderForm');if(!f.reportValidity())return;const subject='ASTART Custom Order Request';window.location.href=`mailto:${CONFIG.businessEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(orderSummary()+'\n\nPlease attach your artwork file to this email before sending.')}`});
+document.getElementById('downloadOrder').addEventListener('click',()=>{const blob=new Blob([orderSummary()],{type:'text/plain'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='ASTART-order-request.txt';a.click();URL.revokeObjectURL(a.href)});
+document.getElementById('saveOrder').addEventListener('click',()=>{const values={};new FormData(document.getElementById('orderForm')).forEach((v,k)=>{if(v instanceof File)return;if(values[k]) values[k]=[].concat(values[k],v); else values[k]=v});localStorage.setItem('astart-order-draft',JSON.stringify(values));toast('Order draft saved on this device.');});
+(function restore(){try{const s=JSON.parse(localStorage.getItem('astart-order-draft')||'null');if(!s)return;Object.entries(s).forEach(([k,v])=>{const els=document.querySelectorAll(`[name="${k}"]`);if(!els.length)return;if(Array.isArray(v)){els.forEach(el=>{if(el.type==='checkbox')el.checked=v.includes(el.value)})}else if(els[0].type==='checkbox'){els.forEach(el=>el.checked=el.value===v)}else els[0].value=v})}catch(e){}})();
+document.getElementById('emailContact').addEventListener('click',()=>{const n=document.getElementById('cname'),e=document.getElementById('cemail');if(!n.value||!e.value){document.getElementById('contactForm').reportValidity();return}const body=`Name: ${n.value}\nEmail: ${e.value}\nPhone: ${document.getElementById('cphone').value}\nOrganization: ${document.getElementById('corg').value}\n\nMessage:\n${document.getElementById('cmsg').value}`;window.location.href=`mailto:${CONFIG.businessEmail}?subject=${encodeURIComponent('ASTART Website Inquiry')}&body=${encodeURIComponent(body)}`});
+</script>
+</body>
+</html>
